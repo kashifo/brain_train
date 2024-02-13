@@ -74,7 +74,7 @@ class _MathBasicState extends State<MathBasic> {
                       autofocus: true,
                       focusNode: myFocusNode,
                       controller: textarea,
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.number,
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 24),
                       textInputAction: TextInputAction.next,

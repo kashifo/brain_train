@@ -1,3 +1,5 @@
+import 'package:brain_train/jigsaw/jigsaw_demo.dart';
+import 'package:brain_train/jigsaw/jigsaw_screen.dart';
 import 'package:brain_train/math_basic.dart';
 import 'package:flutter/material.dart';
 
@@ -50,13 +52,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 16),
                     child: SingleChildScrollView(
-                      padding: EdgeInsets.only(bottom: 16),
+                      padding: const EdgeInsets.only(bottom: 16),
                       child: GridView.extent(
                         shrinkWrap: true,
                         mainAxisSpacing: 30,
                         crossAxisSpacing: 30,
-                        padding: EdgeInsets.symmetric(horizontal: 30),
-                        physics: ScrollPhysics(),
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        physics: const ScrollPhysics(),
                         scrollDirection: Axis.vertical,
                         maxCrossAxisExtent: 200,
                         children: [
@@ -90,7 +92,7 @@ InkWell gridItem(BuildContext context, String title, IconData iconData, Color ic
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => const MathBasic()
+              builder: (context) => const JigsawDemo()
           ));
     },
     child: Container(
@@ -99,7 +101,7 @@ InkWell gridItem(BuildContext context, String title, IconData iconData, Color ic
         shape: BoxShape.rectangle,
         boxShadow: [
           BoxShadow(
-              offset: Offset(0, 5),
+              offset: const Offset(0, 5),
               blurRadius: 5,
               spreadRadius: 2,
               color: Colors.black.withOpacity(0.2))
@@ -110,14 +112,14 @@ InkWell gridItem(BuildContext context, String title, IconData iconData, Color ic
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(shape: BoxShape.circle, color: iconColor),
               child: Icon(
                 iconData,
                 color: Colors.white,
                 size: 25,
               )),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           Text(

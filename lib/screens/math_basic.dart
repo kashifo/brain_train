@@ -1,9 +1,11 @@
 import 'dart:math';
 
+import 'package:brain_train/utils/common_views.dart';
 import 'package:flutter/material.dart';
 
 class MathBasic extends StatefulWidget {
-  const MathBasic({super.key});
+  const MathBasic({super.key, required this.appBarTitle});
+  final String appBarTitle;
 
   @override
   State<MathBasic> createState() => _MathBasicState();
@@ -35,10 +37,7 @@ class _MathBasicState extends State<MathBasic> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        title: Text('Basic Maths Game'),
-      ),
+      appBar: simpleAppBar(widget.appBarTitle),
       body: Column(
         children: [
           Container(

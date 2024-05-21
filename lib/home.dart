@@ -1,6 +1,7 @@
+import 'package:brain_train/screens/empty_screen.dart';
 import 'package:brain_train/jigsaw/jigsaw_demo.dart';
-import 'package:brain_train/jigsaw/jigsaw_screen.dart';
-import 'package:brain_train/math_basic.dart';
+import 'package:brain_train/screens/math_basic.dart';
+import 'package:brain_train/screens/repeat_the_no.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -62,18 +63,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         scrollDirection: Axis.vertical,
                         maxCrossAxisExtent: 200,
                         children: [
-                          gridItem(context, 'Maths', Icons.add, Colors.red),
-                          gridItem(context, 'Puzzle', Icons.bug_report, Colors.pink),
-                          gridItem(context, 'Find Pairs', Icons.search, Colors.cyan),
-                          gridItem(context, 'Memory', Icons.people, Colors.blue),
-                          gridItem(
-                              context, 'Attention', Icons.calendar_month, Colors.orange),
+                          gridItem(context, 'Human Calculator', Icons.add, Colors.red),
+                          gridItem(context, 'Classic Puzzle', Icons.join_left_rounded, Colors.pink),
+                          gridItem(context, 'Find the Pair', Icons.search, Colors.cyan),
+                          gridItem(context, 'Remember the Path', Icons.route_sharp, Colors.blue),
+                          gridItem(context, 'Repeat the Numbers', Icons.repeat_one, Colors.blue),
+                          gridItem(context, 'Find the Number', Icons.remove_red_eye, Colors.blue),
+                          gridItem(context, 'Attention', Icons.calendar_month, Colors.orange),
                           gridItem(context, 'Scores', Icons.score, Colors.green),
                           gridItem(context, 'About', Icons.info_outline, Colors.cyan),
-                          gridItem(
-                              context, 'History', Icons.history, Colors.indigoAccent),
-                          gridItem(
-                              context, 'Feedback', Icons.feedback_outlined, Colors.red),
+                          gridItem(context, 'History', Icons.history, Colors.indigoAccent),
+                          gridItem(context, 'Feedback', Icons.feedback_outlined, Colors.red),
                         ],
                       ),
                     ),
@@ -92,7 +92,20 @@ InkWell gridItem(BuildContext context, String title, IconData iconData, Color ic
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => const JigsawDemo()
+              builder: (context) {
+
+                switch(title){
+                  case 'Human Calculator':
+                    return MathBasic(appBarTitle: title);
+                  case 'Classic Puzzle':
+                    return JigsawDemo(appBarTitle: title);
+                  case 'Repeat the Numbers':
+                    return RepeatNo(appBarTitle: title);
+                  default:
+                    return EmptyScreen(appBarTitle: title);
+                }
+
+              }
           ));
     },
     child: Container(
@@ -123,7 +136,7 @@ InkWell gridItem(BuildContext context, String title, IconData iconData, Color ic
             height: 16,
           ),
           Text(
-            title,
+            title, textAlign: TextAlign.center,
           )
         ],
       ),

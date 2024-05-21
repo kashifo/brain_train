@@ -134,9 +134,21 @@ bool Win32Window::Create(const std::wstring& title,
   UINT dpi = FlutterDesktopGetDpiForMonitor(monitor);
   double scale_factor = dpi / 96.0;
 
+  // Get screen sizes to calculate offsets including windows taskbar height
+  int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+  int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+
+  // Calculate window offset from the left side of the screen depending on current
+  // system scale factor
+  int left = static_cast<int>((screenWidth / 2) - Scale(size.width / 2, scale_factor));
+
+  // Calculate window offset from top upper side of the screen depending on current
+  // system scale factor
+  int top =  static_cast<int>((screenHeight / 2) - Scale(size.height / 2, scale_factor));
+
   HWND window = CreateWindow(
       window_class, title.c_str(), WS_OVERLAPPEDWINDOW,
-      Scale(origin.x, scale_factor), Scale(origin.y, scale_factor),
+      left, top,
       Scale(size.width, scale_factor), Scale(size.height, scale_factor),
       nullptr, nullptr, GetModuleHandle(nullptr), this);
 

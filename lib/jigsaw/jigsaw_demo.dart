@@ -1,11 +1,19 @@
+import 'dart:math';
 import 'package:brain_train/utils/common_views.dart';
 import 'package:flutter/material.dart';
 import 'package:brain_train/jigsaw/jigsaw.dart';
 
-class JigsawDemo extends StatelessWidget {
+class JigsawDemo extends StatefulWidget {
   const JigsawDemo({super.key, required this.appBarTitle});
 
   final String appBarTitle;
+
+  @override
+  State<JigsawDemo> createState() => _JigsawDemoState();
+}
+
+class _JigsawDemoState extends State<JigsawDemo> {
+  String puzzleImg = 'assets/images/kas_fizz_300.jpg';
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +21,7 @@ class JigsawDemo extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: simpleAppBar(appBarTitle),
+      appBar: simpleAppBar(widget.appBarTitle),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -22,6 +30,16 @@ class JigsawDemo extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        puzzleImg = getRandomPic();
+                        puzzleKey.currentState!.reset();
+                      });
+                    },
+                    child: const Text('New'),
+                  ),
+                  const SizedBox(width: 16),
                   ElevatedButton(
                     onPressed: () async {
                       await puzzleKey.currentState!.generate();
@@ -39,7 +57,7 @@ class JigsawDemo extends StatelessWidget {
               ),
               JigsawPuzzle(
                 gridSize: 3,
-                image: const AssetImage('assets/images/kas_fizz_300.jpg'),
+                image: AssetImage(puzzleImg),
                 onFinished: () {
                   // ignore: avoid_print
                   print('finished!');
@@ -58,5 +76,12 @@ class JigsawDemo extends StatelessWidget {
         ),
       ),
     );
+  }//build
+
+  String getRandomPic(){
+    List<String> pics = ['elon_musk.jpg', 'kas_fizz_300.jpg', 'kas_inf.jpg', 'linus.jpg', 'mark.jpg', 'mark_face.png', 'mark_pc.jpg', 'ola_s1x.jpg', 'steve.jpg'];
+    var nextInt = Random().nextInt( pics.length );
+    return 'assets/images/${pics[nextInt]}';
   }
+
 }

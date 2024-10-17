@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               trailing: CircleAvatar(
                 radius: 30,
-                backgroundImage: AssetImage('assets/images/kashif_fizz.jpg'),
+                backgroundImage: AssetImage('assets/images/kas_fizz_300.jpg'),
               ),
             ),
           ),

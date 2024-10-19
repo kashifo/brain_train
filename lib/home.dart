@@ -1,5 +1,6 @@
 import 'package:brain_train/screens/empty_screen.dart';
 import 'package:brain_train/jigsaw/jigsaw_demo.dart';
+import 'package:brain_train/screens/find_the_no.dart';
 import 'package:brain_train/screens/math_basic.dart';
 import 'package:brain_train/screens/repeat_the_no.dart';
 import 'package:flutter/material.dart';
@@ -101,6 +102,8 @@ InkWell gridItem(BuildContext context, String title, IconData iconData, Color ic
                     return JigsawDemo(appBarTitle: title);
                   case 'Repeat the Numbers':
                     return RepeatNo(appBarTitle: title);
+                  case 'Find the Number':
+                    return FindTheNo(appBarTitle: title);
                   default:
                     return EmptyScreen(appBarTitle: title);
                 }

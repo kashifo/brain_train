@@ -18,4 +18,11 @@ class ResponsiveUtils {
   // Check if the device is considered as desktop based on screen width.
   static bool isDesktop(BuildContext context) =>
       MediaQuery.of(context).size.width > 1200;
+
+  static printScreenSize(context){
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
+    print('width=$width, heigh=$height');
+  }
+
 }

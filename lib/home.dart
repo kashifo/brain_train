@@ -1,3 +1,4 @@
+import 'package:brain_train/screens/about_screen.dart';
 import 'package:brain_train/screens/empty_screen.dart';
 import 'package:brain_train/jigsaw/jigsaw_demo.dart';
 import 'package:brain_train/screens/find_the_no.dart';
@@ -27,11 +28,11 @@ class _HomeScreenState extends State<HomeScreen> {
             child: const ListTile(
               contentPadding: EdgeInsets.only(left: 30, right: 30),
               title: Text(
-                'Welcome',
+                'Welcome to Brain Train',
                 style: TextStyle(fontSize: 14, color: Colors.white),
               ),
               subtitle: Text(
-                'Mr Kashif!',
+                'Mr Kashif',
                 style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -104,6 +105,8 @@ InkWell gridItem(BuildContext context, String title, IconData iconData, Color ic
                     return RepeatNo(appBarTitle: title);
                   case 'Find the Number':
                     return FindTheNo(appBarTitle: title);
+                  case 'About':
+                    return AboutScreen(appBarTitle: title);
                   default:
                     return EmptyScreen(appBarTitle: title);
                 }
@@ -138,8 +141,11 @@ InkWell gridItem(BuildContext context, String title, IconData iconData, Color ic
           const SizedBox(
             height: 16,
           ),
-          Text(
-            title, textAlign: TextAlign.center,
+          Padding(
+            padding: const EdgeInsets.all(2),
+            child: Text(
+              title, textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w500),
+            ),
           )
         ],
       ),

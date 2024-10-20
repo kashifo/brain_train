@@ -14,9 +14,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Brain Train',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple, primary: Colors.blueAccent),
         useMaterial3: true,
       ),
+      debugShowCheckedModeBanner: false,
       home: const HomeScreen(),
     );
   }

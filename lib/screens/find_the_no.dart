@@ -1,6 +1,8 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
+
+import '../utils/common_views.dart';
+import '../utils/ResponsiveUtils.dart';
 
 class FindTheNo extends StatefulWidget {
   const FindTheNo({super.key, required this.appBarTitle});
@@ -10,115 +12,106 @@ class FindTheNo extends StatefulWidget {
   State<FindTheNo> createState() => _FindTheNoState();
 }
 
+class GridNum {
+  Color? color;
+  int? number;
+
+  GridNum(Color this.color, int this.number);
+}
+
 class _FindTheNoState extends State<FindTheNo> {
-  List<Widget> widgetList = [];
+  List<GridNum> gridList = [];
   int curGrid = 0;
 
   @override
   void initState() {
     buildGrid();
-    curGrid = Random().nextInt(widgetList.length);
+    curGrid = Random().nextInt(gridList.length);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.appBarTitle),
-        automaticallyImplyLeading: true,
-      ),
+      appBar: simpleAppBar(widget.appBarTitle),
       body: Column(
         children: [
-          Container(
-            width: 100,
-              height: 70,
-              child: widgetList[curGrid]
-          ),
+          SizedBox(width: 100, height: 70, child: getCurrentGrid()),
           SizedBox(
             height: 16,
           ),
-          GridView.extent(
-            shrinkWrap: true,
-            mainAxisSpacing: 8,
-            crossAxisSpacing: 8,
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            physics: const ScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            maxCrossAxisExtent: 100,
-            children: widgetList,
+          Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.all(10),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: ResponsiveUtils.getScrWidth(context)>=1036 ? 6 : 4,
+                childAspectRatio: (1/.4),
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+              ),
+              itemCount: 36,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    ResponsiveUtils.printScreenSize(context);
+
+                    setState(() {
+                      curGrid = Random().nextInt(gridList.length);
+                    });
+                  },
+                  child: getGrid(gridList[index].color!, gridList[index].number!),
+                );
+              },
+            ),
           )
         ],
       ),
     );
   }
 
-  buildGrid(){
-    for(int i=0; i<25; i++){
-      widgetList.add( getGrid() );
+  buildGrid() {
+    List<Color> colorList = [
+      Colors.red,
+      Colors.blue,
+      Colors.green,
+      Colors.black,
+      Colors.orange,
+      Colors.purple,
+      Colors.indigo,
+      Colors.brown,
+      Colors.cyan,
+      Colors.pink,
+      Colors.teal
+    ];
+
+    for (int i = 0; i < 36; i++) {
+      Color randomColor = colorList[Random().nextInt(colorList.length)];
+      int randomNumber = Random().nextInt(9);
+
+      gridList.add(GridNum(randomColor, randomNumber));
     }
   }
 
-  Widget getRandomGrid(){
-    int randomNumber = Random().nextInt(widgetList.length);
-    return widgetList[ randomNumber ];
+  Widget getCurrentGrid() {
+    GridNum gridNum = gridList[curGrid];
+    return getGrid(gridNum.color!, gridNum.number!);
   }
 
-  Widget getGrid() {
-    List<Color> colorList = [Colors.red, Colors.blue, Colors.green, Colors.black, Colors.orange, Colors.purple, Colors.indigo, Colors.brown, Colors.cyan, Colors.pink, Colors.teal];
-    int randomColor = Random().nextInt(colorList.length);
-    int randomNumber = Random().nextInt(9);
+  Widget getGrid(Color color, int number) {
+    double fontSize = ResponsiveUtils.getScrWidth(context)>=1036 ? 24 :  16;
 
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 32),
       decoration: BoxDecoration(
-        color: colorList[randomColor],
+        color: color,
         shape: BoxShape.rectangle,
       ),
       child: Center(
         child: Text(
-          randomNumber.toString(),
+          number.toString(),
           style: TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.white, fontSize: 24),
+              fontWeight: FontWeight.bold, color: Colors.white, fontSize: fontSize),
         ),
       ),
     );
   }
-}
-
-/*GridView.builder(
-              // Set padding and spacing between cards.
-              padding: const EdgeInsets.all(10),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                // Set the number of columns based on the device's screen size.
-                crossAxisCount: 5,
-                // Set the aspect ratio of each card.
-                childAspectRatio: 3 / 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-              ),
-              // Set the number of items in the grid view.
-              itemCount: 25,
-              shrinkWrap: true,
-              // Disable scrolling in the grid view.
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-                InkWell(
-                  onTap: (){
-                    print('onTap-$index');
-                  },
-                  child: widgetList[index],
-                );
-              })*/
-
-/*
-GridView.extent(
-shrinkWrap: true,
-mainAxisSpacing: 8,
-crossAxisSpacing: 8,
-padding: const EdgeInsets.symmetric(horizontal: 8),
-physics: const ScrollPhysics(),
-scrollDirection: Axis.vertical,
-maxCrossAxisExtent: 100,
-children: widgetList,
-),*/
+} //buildState

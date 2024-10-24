@@ -2,7 +2,7 @@ import 'package:brain_train/home.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  //WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 

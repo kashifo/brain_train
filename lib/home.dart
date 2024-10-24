@@ -67,10 +67,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           gridItem(context, 'Human Calculator', Icons.add, Colors.red),
                           gridItem(context, 'Classic Puzzle', Icons.join_left_rounded, Colors.pink),
-                          gridItem(context, 'Find the Pair', Icons.search, Colors.cyan),
-                          gridItem(context, 'Remember the Path', Icons.route_sharp, Colors.blue),
                           gridItem(context, 'Repeat the Numbers', Icons.repeat_one, Colors.blue),
                           gridItem(context, 'Find the Number', Icons.remove_red_eye, Colors.blue),
+                          gridItem(context, 'Find the Pair', Icons.search, Colors.cyan),
+                          gridItem(context, 'Remember the Path', Icons.route_sharp, Colors.blue),
                           gridItem(context, 'Attention', Icons.calendar_month, Colors.orange),
                           gridItem(context, 'Scores', Icons.score, Colors.green),
                           gridItem(context, 'About', Icons.info_outline, Colors.cyan),

@@ -15,18 +15,29 @@ class FindTheNo extends StatefulWidget {
 class GridNum {
   Color? color;
   int? number;
+  bool hide;
 
-  GridNum(Color this.color, int this.number);
+  GridNum(Color this.color, int this.number, bool this.hide);
+
+  String getNumberToShow(){
+    if(hide || number==null){
+      return '';
+    } else {
+      return number.toString();
+    }
+  }
 }
 
 class _FindTheNoState extends State<FindTheNo> {
   List<GridNum> gridList = [];
+  List<int> gridPositionList = [];
   int curGrid = 0;
+  int gridCount = 24; //12, 24, 36, 48
 
   @override
   void initState() {
     buildGrid();
-    curGrid = Random().nextInt(gridList.length);
+    setCurrentGrid();
     super.initState();
   }
 
@@ -34,36 +45,77 @@ class _FindTheNoState extends State<FindTheNo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: simpleAppBar(widget.appBarTitle),
-      body: Column(
-        children: [
-          SizedBox(width: 100, height: 70, child: getCurrentGrid()),
-          SizedBox(
-            height: 16,
-          ),
-          Expanded(
-            child: GridView.builder(
-              padding: const EdgeInsets.all(10),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: ResponsiveUtils.getScrWidth(context)>=1036 ? 6 : 4,
-                childAspectRatio: (1/.4),
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-              ),
-              itemCount: 36,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    ResponsiveUtils.printScreenSize(context);
+      body: getGameScreen(context),
+    );
+  }
 
-                    setState(() {
-                      curGrid = Random().nextInt(gridList.length);
-                    });
-                  },
-                  child: getGrid(gridList[index].color!, gridList[index].number!),
-                );
-              },
+  Widget getGameScreen(BuildContext context){
+    if(gridPositionList.isNotEmpty){
+      return runningGame(context);
+    } else {
+      return gameCompleted();
+    }
+  }
+
+  Widget runningGame(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+    int crossAxisCount = screenWidth >= 1036 ? 6 : 4;
+
+    double gridPadding = 20; // 10 padding on each side
+    double totalMainAxisSpacing = (crossAxisCount - 1) * 10; // Spacing between rows
+    double availableHeight = screenHeight - gridPadding - totalMainAxisSpacing - 180;
+    double mainAxisExtent = availableHeight / (gridCount / crossAxisCount);
+
+    return Column(
+      children: [
+        SizedBox(width: 100, height: 70, child: getCurrentGrid()),
+        SizedBox(
+          height: 16,
+        ),
+        Expanded(
+          child: GridView.builder(
+            padding: const EdgeInsets.all(10),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              childAspectRatio: (1 / .4),
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              mainAxisExtent: mainAxisExtent, // Use the calculated height
             ),
-          )
+            itemCount: gridCount,
+            itemBuilder: (context, index) {
+              return InkWell(
+                onTap: () {
+                  setState(() {
+                    if (index == curGrid) {
+                      gridList[index].hide = true;
+                      gridPositionList.remove(index);
+                      setCurrentGrid();
+                    }
+                  });
+                },
+                child: getGrid(gridList[index].color!, gridList[index].getNumberToShow()!),
+              );
+            },
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget gameCompleted(){
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset('assets/icons/brain_train_logo_wbg_512px.jpg', width: 100, height: 100,),
+          Text('Brain Train', style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),),
+          Text('Find the Number', style: TextStyle(fontSize: 16),),
+          SizedBox(height: 8),
+          Text('Congratulations', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+          Text('You\'ve completed the game', style: TextStyle(fontSize: 18),),
         ],
       ),
     );
@@ -84,20 +136,30 @@ class _FindTheNoState extends State<FindTheNo> {
       Colors.teal
     ];
 
-    for (int i = 0; i < 36; i++) {
+    for (int i = 0; i < gridCount; i++) {
       Color randomColor = colorList[Random().nextInt(colorList.length)];
       int randomNumber = Random().nextInt(9);
 
-      gridList.add(GridNum(randomColor, randomNumber));
+      gridList.add(GridNum(randomColor, randomNumber, false));
+      gridPositionList.add(i);
+    }
+  }
+
+  setCurrentGrid(){
+    if(gridPositionList.isNotEmpty) {
+      int randPos = Random().nextInt(gridPositionList.length);
+      curGrid = gridPositionList[randPos];
+    } else {
+      //game completed
     }
   }
 
   Widget getCurrentGrid() {
     GridNum gridNum = gridList[curGrid];
-    return getGrid(gridNum.color!, gridNum.number!);
+    return getGrid(gridNum.color!, gridNum.getNumberToShow()!);
   }
 
-  Widget getGrid(Color color, int number) {
+  Widget getGrid(Color color, String numberToShow) {
     double fontSize = ResponsiveUtils.getScrWidth(context)>=1036 ? 24 :  16;
 
     return Container(
@@ -107,7 +169,7 @@ class _FindTheNoState extends State<FindTheNo> {
       ),
       child: Center(
         child: Text(
-          number.toString(),
+          numberToShow,
           style: TextStyle(
               fontWeight: FontWeight.bold, color: Colors.white, fontSize: fontSize),
         ),
@@ -115,3 +177,4 @@ class _FindTheNoState extends State<FindTheNo> {
     );
   }
 } //buildState
+

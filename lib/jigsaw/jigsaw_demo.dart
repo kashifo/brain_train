@@ -81,7 +81,7 @@ class _JigsawDemoState extends State<JigsawDemo> {
   String getRandomPic(){
     List<String> pics = ['elon_musk.jpg', 'kas_fizz_300.jpg', 'kas_inf.jpg', 'linus.jpg', 'mark.jpg', 'mark_face.png', 'mark_pc.jpg', 'ola_s1x.jpg', 'steve.jpg'];
     var nextInt = Random().nextInt( pics.length );
-    return 'assets/images/${pics[nextInt]}';
+    return 'assets/images/classic_puzzle/${pics[nextInt]}';
   }
 
 }

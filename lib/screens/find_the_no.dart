@@ -26,17 +26,22 @@ class GridNum {
       return number.toString();
     }
   }
+
+  @override
+  String toString() {
+    return 'GridNum{color: ${color?.value.toString()}, number: $number}';
+  }
 }
 
 class _FindTheNoState extends State<FindTheNo> {
   List<GridNum> gridList = [];
   List<int> gridPositionList = [];
   int curGrid = 0;
-  int gridCount = 24; //12, 24, 36, 48
+  int gridCount = 36; //12, 24, 36, 48
 
   @override
   void initState() {
-    buildGrid();
+    generateGridList();
     setCurrentGrid();
     super.initState();
   }
@@ -67,11 +72,18 @@ class _FindTheNoState extends State<FindTheNo> {
     double availableHeight = screenHeight - gridPadding - totalMainAxisSpacing - 180;
     double mainAxisExtent = availableHeight / (gridCount / crossAxisCount);
 
+    var gridWidth = (screenWidth / crossAxisCount) - 10;
+    print('mainAxisExtent=$mainAxisExtent, gridWidth=$gridWidth');
+    print('screenWidth=$screenWidth, screenHeight=$screenHeight');
+
     return Column(
       children: [
-        SizedBox(width: 100, height: 70, child: getCurrentGrid()),
         SizedBox(
           height: 16,
+        ),
+        SizedBox(width: gridWidth, height: mainAxisExtent, child: getCurrentGrid()),
+        SizedBox(
+          height: 8,
         ),
         Expanded(
           child: GridView.builder(
@@ -95,7 +107,7 @@ class _FindTheNoState extends State<FindTheNo> {
                     }
                   });
                 },
-                child: getGrid(gridList[index].color!, gridList[index].getNumberToShow()!),
+                  child: getGrid(gridList[index].color!, gridList[index].getNumberToShow()!),
               );
             },
           ),
@@ -121,7 +133,25 @@ class _FindTheNoState extends State<FindTheNo> {
     );
   }
 
-  buildGrid() {
+  generateGridList() {
+
+    for (int i = 0; i < gridCount; i++) {
+      GridNum gridNum = generateRandomGrid();
+      // print('i=$i, gridNum=${gridNum}');
+
+      while (gridListContains(gridNum)) {
+        //print('while gridListContains: i=${i + 1},${gridNum}');
+
+        gridNum = generateRandomGrid();
+      }
+
+      gridList.add(gridNum);
+      gridPositionList.add(i);
+    }
+
+  }
+  
+  GridNum generateRandomGrid(){
     List<Color> colorList = [
       Colors.red,
       Colors.blue,
@@ -135,14 +165,31 @@ class _FindTheNoState extends State<FindTheNo> {
       Colors.pink,
       Colors.teal
     ];
+    
+    Color randomColor = colorList[Random().nextInt(colorList.length)];
+    int randomNumber = Random().nextInt(9);
+    GridNum gridNum = GridNum(randomColor, randomNumber, false);
 
-    for (int i = 0; i < gridCount; i++) {
-      Color randomColor = colorList[Random().nextInt(colorList.length)];
-      int randomNumber = Random().nextInt(9);
+    return gridNum;
+  }
 
-      gridList.add(GridNum(randomColor, randomNumber, false));
-      gridPositionList.add(i);
+  bool gridListContains(GridNum gridNum){
+    try {
+
+      var gridNumFound = gridList.singleWhere((existingGridNum) {
+        return existingGridNum.color == gridNum.color && existingGridNum.number == gridNum.number;
+      });
+
+      // A GridNum with the same color and number already exists
+      //print('gridListContains() gridNumFound=${gridNumFound.toString()}');
+      return true;
+
+    } catch (e) {
+      // No duplicate found
+      //print(e?.toString());
     }
+
+    return false;
   }
 
   setCurrentGrid(){

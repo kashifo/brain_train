@@ -37,7 +37,7 @@ class _FindTheNoState extends State<FindTheNo> {
   List<GridNum> gridList = [];
   List<int> gridPositionList = [];
   int curGrid = 0;
-  int gridCount = 36; //12, 24, 36, 48
+  int gridSize = 36; //12, 24, 36, 48
 
   @override
   void initState() {
@@ -70,7 +70,7 @@ class _FindTheNoState extends State<FindTheNo> {
     double gridPadding = 20; // 10 padding on each side
     double totalMainAxisSpacing = (crossAxisCount - 1) * 10; // Spacing between rows
     double availableHeight = screenHeight - gridPadding - totalMainAxisSpacing - 180;
-    double mainAxisExtent = availableHeight / (gridCount / crossAxisCount);
+    double mainAxisExtent = availableHeight / (gridSize / crossAxisCount);
 
     var gridWidth = (screenWidth / crossAxisCount) - 10;
     print('mainAxisExtent=$mainAxisExtent, gridWidth=$gridWidth');
@@ -95,7 +95,7 @@ class _FindTheNoState extends State<FindTheNo> {
               mainAxisSpacing: 10,
               mainAxisExtent: mainAxisExtent, // Use the calculated height
             ),
-            itemCount: gridCount,
+            itemCount: gridSize,
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
@@ -135,7 +135,7 @@ class _FindTheNoState extends State<FindTheNo> {
 
   generateGridList() {
 
-    for (int i = 0; i < gridCount; i++) {
+    for (int i = 0; i < gridSize; i++) {
       GridNum gridNum = generateRandomGrid();
       // print('i=$i, gridNum=${gridNum}');
 
@@ -165,7 +165,7 @@ class _FindTheNoState extends State<FindTheNo> {
       Colors.pink,
       Colors.teal
     ];
-    
+
     Color randomColor = colorList[Random().nextInt(colorList.length)];
     int randomNumber = Random().nextInt(9);
     GridNum gridNum = GridNum(randomColor, randomNumber, false);

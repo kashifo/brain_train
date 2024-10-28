@@ -79,7 +79,7 @@ class _JigsawDemoState extends State<JigsawDemo> {
   }//build
 
   String getRandomPic(){
-    List<String> pics = ['elon_musk.jpg', 'kas_fizz_300.jpg', 'kas_inf.jpg', 'linus.jpg', 'mark.jpg', 'mark_face.png', 'mark_pc.jpg', 'ola_s1x.jpg', 'steve.jpg'];
+    List<String> pics = ['mark_face.png', 'elon_musk.jpg', 'steve.jpg', 'linus.jpg', 'bill.jpg', 'ola_s1x.jpg', 'gilfoyle.jpg', 'erlich.jpg', 'richard.jpg', 'jared.jpg', 'jan.jpg', 'monica.jpg', 'kas_fizz_300.jpg'];
     var nextInt = Random().nextInt( pics.length );
     return 'assets/images/classic_puzzle/${pics[nextInt]}';
   }

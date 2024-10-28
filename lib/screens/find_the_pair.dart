@@ -20,8 +20,9 @@ class ImgGrid{
 }
 
 class _FindThePairState extends State<FindThePair> {
-  List<String> rawImgList = ['mark_face.png', 'elon_musk.jpg', 'steve.jpg', 'linus.jpg', 'ola_s1x.jpg', 'gilfoyle.jpg', 'erlich.jpg', 'kas_inf.jpg', 'richard.jpg', 'mark.jpg', 'mark_pc.jpg', 'kas_fizz_300.jpg'];
+  List<String> rawImgList = ['mark_face.png', 'elon_musk.jpg', 'steve.jpg', 'linus.jpg', 'bill.jpg', 'ola_s1x.jpg', 'gilfoyle.jpg', 'erlich.jpg', 'richard.jpg', 'jared.jpg', 'jan.jpg', 'monica.jpg', 'kas_fizz_300.jpg'];
   int gridSize = 24;
+  int correctClicks = 0;
   List<ImgGrid> imgGridList = [];
   List<ImgGrid> clickList = [];
 
@@ -33,6 +34,7 @@ class _FindThePairState extends State<FindThePair> {
 
   generateGridList(){
     List<String> imgPairList = [];
+    rawImgList = rawImgList.sublist(0, gridSize~/2);
     imgPairList.addAll(rawImgList);
     imgPairList.addAll(rawImgList);
 
@@ -52,11 +54,11 @@ class _FindThePairState extends State<FindThePair> {
   }
 
   Widget getGameScreen(BuildContext context){
-    // if(gridPositionList.isNotEmpty){
-      return runningGame(context);
-    /*} else {
+    if(correctClicks==(gridSize/2)){
       return gameCompleted();
-    }*/
+    } else {
+      return runningGame(context);
+    }
   }
 
   int getCrossAxisCount(double screenWidth){
@@ -103,6 +105,11 @@ class _FindThePairState extends State<FindThePair> {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
+                  if(imgGridList[index].show) {
+                    //prevent click for already showing item
+                    return;
+                  }
+
                     if (clickList.isEmpty) {
 
                       setState(() {
@@ -116,6 +123,7 @@ class _FindThePairState extends State<FindThePair> {
 
                         setState(() {
                           imgGridList[index].show = true;
+                          correctClicks++;
                           clickList.clear();
                         });
 
@@ -156,7 +164,7 @@ class _FindThePairState extends State<FindThePair> {
         children: [
           Image.asset('assets/icons/brain_train_logo_wbg_512px.jpg', width: 100, height: 100,),
           Text('Brain Train', style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),),
-          Text('Find the Number', style: TextStyle(fontSize: 16),),
+          Text('Find the Pair', style: TextStyle(fontSize: 16),),
           SizedBox(height: 8),
           Text('Congratulations', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
           Text('You\'ve completed the game', style: TextStyle(fontSize: 18),),

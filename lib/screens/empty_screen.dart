@@ -13,9 +13,9 @@ class _EmptyScreenState extends State<EmptyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: simpleAppBar(widget.appBarTitle),
+      appBar: simpleAppBar(widget.appBarTitle, context),
       body: const Center(
-        child: Text('Game will be shown here in the future'),
+        child: Text('This screen is not ready yet.'),
       ),
     );
   }

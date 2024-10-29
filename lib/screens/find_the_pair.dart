@@ -48,7 +48,7 @@ class _FindThePairState extends State<FindThePair> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: simpleAppBar(widget.appBarTitle),
+      appBar: simpleAppBar(widget.appBarTitle, context),
       body: getGameScreen(context),
     );
   }

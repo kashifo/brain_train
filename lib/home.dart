@@ -5,6 +5,7 @@ import 'package:brain_train/screens/find_the_no.dart';
 import 'package:brain_train/screens/find_the_pair.dart';
 import 'package:brain_train/screens/math_basic.dart';
 import 'package:brain_train/screens/repeat_the_no.dart';
+import 'package:brain_train/sub_home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -75,14 +76,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   radius: 30,
                   backgroundImage: AssetImage('assets/icons/brain_train_logo_wbg_512px.jpg'),
                 ),
-                trailing: Padding(
-                  padding: const EdgeInsets.only(right: 16.0),
-                  child: Icon(
-                    Icons.history,
-                    color: Colors.white,
-                    size: 28,
-                  ),
-                ),
               ),
             ),
             Expanded(
@@ -106,13 +99,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           scrollDirection: Axis.vertical,
                           maxCrossAxisExtent: 200,
                           children: [
-                            gridItem(context, 'Human Calculator', Icons.add, Colors.red),
-                            gridItem(context, 'Classic Puzzle', Icons.join_left_rounded, Colors.pink),
-                            gridItem(context, 'Repeat the Numbers', Icons.repeat_one, Colors.blue),
-                            gridItem(context, 'Find the Number', Icons.remove_red_eye, Colors.blue),
-                            gridItem(context, 'Find the Pair', Icons.search, Colors.cyan),
-                            gridItem(context, 'Remember the Path', Icons.route_sharp, Colors.blue),
-                            gridItem(context, 'Attention', Icons.calendar_month, Colors.orange),
+                            gridItem(context, 'Memory', Icons.memory, Colors.green),
+                            gridItem(context, 'Imagination', Icons.remove_red_eye, Colors.blue),
+                            gridItem(context, 'Attention', Icons.repeat_one, Colors.orange),
+                            gridItem(context, 'Arithmetic', Icons.add, Colors.red),
                             gridItem(context, 'Scores', Icons.score, Colors.green),
                             gridItem(context, 'About', Icons.info_outline, Colors.cyan),
                             gridItem(context, 'History', Icons.history, Colors.indigoAccent),
@@ -135,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
     saveInput(){
       if( !isNullOrEmpty(valueText) ) {
         valueText = valueText!.trim();
-        savePrefs('username', valueText!);
+        savePrefString('username', valueText!);
 
         setState(() {
           userName = valueText!;
@@ -186,11 +176,6 @@ class _HomeScreenState extends State<HomeScreen> {
         });
   }
 
-  Future<void> savePrefs(String key, String value) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString(key, value);
-  }
-
 }
 
 InkWell gridItem(BuildContext context, String title, IconData iconData, Color iconColor) {
@@ -202,16 +187,8 @@ InkWell gridItem(BuildContext context, String title, IconData iconData, Color ic
               builder: (context) {
 
                 switch(title){
-                  case 'Human Calculator':
-                    return MathBasic(appBarTitle: title);
-                  case 'Classic Puzzle':
-                    return JigsawDemo(appBarTitle: title);
-                  case 'Repeat the Numbers':
-                    return RepeatNo(appBarTitle: title);
-                  case 'Find the Number':
-                    return FindTheNo(appBarTitle: title);
-                  case 'Find the Pair':
-                    return FindThePair(appBarTitle: title);
+                  case 'Memory' || 'Imagination' || 'Attention' || 'Arithmetic':
+                    return SubHomeScreen(appBarTitle: '$title Games', iconData: iconData, iconColor: iconColor);
                   case 'About':
                     return AboutScreen(appBarTitle: title);
                   default:

@@ -21,7 +21,7 @@ class _JigsawDemoState extends State<JigsawDemo> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: simpleAppBar(widget.appBarTitle),
+      appBar: simpleAppBar(widget.appBarTitle, context),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),

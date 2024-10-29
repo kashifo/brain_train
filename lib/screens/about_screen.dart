@@ -14,7 +14,7 @@ class _AboutScreenState extends State<AboutScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: simpleAppBar(widget.appBarTitle),
+      appBar: simpleAppBar(widget.appBarTitle, context),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.max,

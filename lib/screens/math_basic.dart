@@ -37,7 +37,7 @@ class _MathBasicState extends State<MathBasic> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: simpleAppBar(widget.appBarTitle),
+      appBar: simpleAppBar(widget.appBarTitle, context),
       body: Column(
         children: [
           Container(

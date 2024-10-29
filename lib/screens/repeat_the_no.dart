@@ -30,7 +30,7 @@ class _RepeatNoState extends State<RepeatNo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: simpleAppBar(widget.appBarTitle),
+        appBar: simpleAppBar(widget.appBarTitle, context),
         body: SafeArea(
             child: Column(
           children: [

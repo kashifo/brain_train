@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 String handleNull(String? str){
   if(str==null)
     return '';
   else
     return str;
+}
+
+bool isNullOrEmpty(String? str){
+  if(str==null || str.isEmpty || str.replaceAll(' ', '').isEmpty ){
+    return true;
+  }
+
+  return false;
+}
+
+Future<void> savePrefString(String key, String value) async {
+  final prefs = await SharedPreferences.getInstance();
+  prefs.setString(key, value);
 }
 
 getIntColor(String hex) {

@@ -21,20 +21,34 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Theme.of(context).primaryColor));
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: widget.iconColor));
 
     return Scaffold(
-      body: SafeArea(
+      body: AnnotatedRegion(
+        value: SystemUiOverlayStyle(statusBarColor: widget.iconColor),
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.only(top: 20, bottom: 20),
-              decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                  // borderRadius: const BorderRadius.only(bottomRight: Radius.circular(50))
-              ),
+              padding: const EdgeInsets.only(top: 40, bottom: 20),
+              decoration: BoxDecoration(color: widget.iconColor),
               child: ListTile(
                 contentPadding: EdgeInsets.only(left: 30, right: 30),
+                leading: Container(
+                    padding: const EdgeInsets.all(13),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: widget.iconColor,
+                      boxShadow: [
+                        BoxShadow(
+                            offset: const Offset(0, 1),
+                            blurRadius: 5,
+                            spreadRadius: 1,
+                            color: Colors.black.withOpacity(0.2))
+                      ],
+                    ),
+                    child: Icon(
+                      widget.iconData,
+                      color: Colors.white,
+                    )),
                 title: Text(
                   'Brain Train',
                   style: TextStyle(fontSize: 14, color: Colors.white),
@@ -46,13 +60,6 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
                 ),
-                leading: Container(
-                    padding: const EdgeInsets.all(13),
-                    decoration: BoxDecoration(shape: BoxShape.circle, color: widget.iconColor),
-                    child: Icon(
-                      widget.iconData,
-                      color: Colors.white,
-                    )),
                 trailing: Padding(
                   padding: const EdgeInsets.only(right: 16.0),
                   child: InkWell(
@@ -70,26 +77,23 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
             ),
             Expanded(
               child: Container(
-                color: Theme.of(context).primaryColor,
+                color: widget.iconColor,
                 child: Container(
                     decoration: const BoxDecoration(
                         color: Colors.white,
-                        borderRadius:
-                            BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50))),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: SingleChildScrollView(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: GridView.extent(
-                          shrinkWrap: true,
-                          mainAxisSpacing: 30,
-                          crossAxisSpacing: 30,
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          physics: const ScrollPhysics(),
-                          scrollDirection: Axis.vertical,
-                          maxCrossAxisExtent: 200,
-                          children: getGridItems(widget.appBarTitle, context),
-                        ),
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50))),
+                    padding: EdgeInsets.only(top: 10),
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: GridView.extent(
+                        shrinkWrap: true,
+                        mainAxisSpacing: 30,
+                        crossAxisSpacing: 30,
+                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 16),
+                        physics: const ScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        maxCrossAxisExtent: 200,
+                        children: getGridItems(widget.appBarTitle, widget.iconColor, context),
                       ),
                     )),
               ),
@@ -102,20 +106,27 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
 
 }//State
 
-List<Widget> getGridItems(String appBarTitle, BuildContext context){
+List<Widget> getGridItems(String appBarTitle, Color color, BuildContext context){
   List<Widget> gridItemList = [];
 
   if(appBarTitle.compareTo('Memory Games')==0){
-    gridItemList.add( gridItem(context, 'Repeat the Numbers', Icons.repeat_one, Colors.blue),
-    );
-    gridItemList.add(gridItem(context, 'Find the Pair', Icons.search, Colors.cyan));
+
+    gridItemList.add( gridItem(context, 'Repeat the Numbers', Icons.repeat_one, color),);
+    gridItemList.add(gridItem(context, 'Find the Pair', Icons.search, color));
+
   }else if(appBarTitle.compareTo('Imagination Games')==0){
-    gridItemList.add(gridItem(context, 'Classic Puzzle', Icons.join_left_rounded, Colors.pink));
+
+    gridItemList.add(gridItem(context, 'Classic Puzzle', Icons.join_left_rounded, color));
+
   }else if(appBarTitle.compareTo('Attention Games')==0){
-    gridItemList.add(gridItem(context, 'Find the Number', Icons.remove_red_eye, Colors.blue));
+
+    gridItemList.add(gridItem(context, 'Find the Number', Icons.remove_red_eye, color));
+
   }else if(appBarTitle.compareTo('Arithmetic Games')==0){
-    gridItemList.add(gridItem(context, 'Human Calculator', Icons.add, Colors.red));
+
+    gridItemList.add(gridItem(context, 'Human Calculator', Icons.add, color));
     // gridItemList.add();
+
   }
 
   return gridItemList;
@@ -154,9 +165,9 @@ InkWell gridItem(BuildContext context, String title, IconData iconData, Color ic
         shape: BoxShape.rectangle,
         boxShadow: [
           BoxShadow(
-              offset: const Offset(0, 5),
+              offset: const Offset(0, 0),
               blurRadius: 5,
-              spreadRadius: 2,
+              spreadRadius: 0,
               color: Colors.black.withOpacity(0.2))
         ],
         borderRadius: BorderRadius.circular(10),
@@ -166,7 +177,16 @@ InkWell gridItem(BuildContext context, String title, IconData iconData, Color ic
         children: [
           Container(
               padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(shape: BoxShape.circle, color: iconColor),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle, color: iconColor,
+                boxShadow: [
+                  BoxShadow(
+                      offset: const Offset(0, 1),
+                      blurRadius: 5,
+                      spreadRadius: 1,
+                      color: Colors.black.withOpacity(0.2))
+                ],
+              ),
               child: Icon(
                 iconData,
                 color: Colors.white,

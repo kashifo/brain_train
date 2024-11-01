@@ -12,12 +12,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Theme.of(context).primaryColor));
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.blue,));
 
     return MaterialApp(
       title: 'Brain Train',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple, primary: Colors.blueAccent),
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue),
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,

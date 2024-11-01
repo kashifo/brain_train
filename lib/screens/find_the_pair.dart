@@ -1,7 +1,5 @@
-import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import '../utils/common_views.dart';
 
 class FindThePair extends StatefulWidget {
   const FindThePair({super.key, required this.appBarTitle});
@@ -25,6 +23,8 @@ class _FindThePairState extends State<FindThePair> {
   int correctClicks = 0;
   List<ImgGrid> imgGridList = [];
   List<ImgGrid> clickList = [];
+  bool _showFrontSide = true;
+  bool showAnim = false;
 
   @override
   void initState() {
@@ -48,7 +48,34 @@ class _FindThePairState extends State<FindThePair> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: simpleAppBar(widget.appBarTitle, context),
+      appBar: AppBar(
+        title: Text(widget.appBarTitle),
+        automaticallyImplyLeading: false,
+        elevation: 2.0,
+        actions: [
+          Switch(
+            value: showAnim,
+            onChanged: (value) {
+              setState(() {
+                showAnim = value;
+              });
+            },
+          ),
+          SizedBox(width: 16),
+          InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: Icon(
+                  Icons.close
+              ),
+            ),
+          ),
+          SizedBox(width: 8),
+        ],
+      ),
       body: getGameScreen(context),
     );
   }
@@ -133,7 +160,13 @@ class _FindThePairState extends State<FindThePair> {
 
                     }
                 },
-                child: getGrid(imgGridList[index]),
+                child: !showAnim ? getGrid(imgGridList[index])
+                : Center(
+                  child: Container(
+                    constraints: BoxConstraints.tight(Size.square(gridWidth)),
+                    child: _buildFlipAnimation(index),
+                  ),
+                ),
               );
             },
           ),
@@ -174,7 +207,6 @@ class _FindThePairState extends State<FindThePair> {
   }
 
   Widget getGrid(ImgGrid imgGrid) {
-
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
@@ -185,6 +217,71 @@ class _FindThePairState extends State<FindThePair> {
           fit: BoxFit.fill,
         ),
       ),
+    );
+  }
+
+  Widget _buildFlipAnimation(int index) {
+    return AnimatedSwitcher(
+      duration: Duration(milliseconds: 800),
+      transitionBuilder: _buildFlipTransition,
+      layoutBuilder: (widget, list) => Stack(children: [widget!, ...list]),
+      switchInCurve: Curves.easeInBack,
+      switchOutCurve: Curves.easeInBack.flipped,
+      child: imgGridList[index].show ? _buildFront(index) : _buildRear(),
+    );
+  }
+
+  Widget _buildFlipTransition(Widget widget, Animation<double> animation) {
+    final rotateAnim = Tween(begin: pi, end: 0.0).animate(animation);
+    return AnimatedBuilder(
+      animation: rotateAnim,
+      child: widget,
+      builder: (context, widget) {
+        final isUnder = (ValueKey(_showFrontSide) != widget?.key);
+        var tilt = ((animation.value - 0.5).abs() - 0.5) * 0.003;
+        tilt *= isUnder ? -1.0 : 1.0;
+        final value = isUnder ? min(rotateAnim.value, pi / 2) : rotateAnim.value;
+        return Transform(
+          transform: (Matrix4.rotationY(value)..setEntry(3, 0, tilt)),
+          alignment: Alignment.center,
+          child: widget,
+        );
+      },
+    );
+  }
+
+  Widget _buildFront(int index) {
+    return _buildLayout(
+      key: ValueKey(true),
+      child: Center(
+        child: Image.asset(
+          'assets/images/classic_puzzle/${imgGridList[index].imgPath}',
+          fit: BoxFit.fill,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRear() {
+    return _buildLayout(
+      key: ValueKey(false),
+      child: Center(
+        child: Image.asset(
+          'assets/images/ubuntu_plain.jpg',
+          fit: BoxFit.fill,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLayout({
+    required Key key,
+    required Widget child,
+  }) {
+    return ClipRRect(
+      key: key,
+      borderRadius: BorderRadius.circular(16.0),
+      child: child,
     );
   }
 

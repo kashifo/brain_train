@@ -107,7 +107,7 @@ class _FindTheNoState extends State<FindTheNo> {
                     }
                   });
                 },
-                  child: getGrid(gridList[index].color!, gridList[index].getNumberToShow()!),
+                  child: getGrid(gridList[index].color!, gridList[index].getNumberToShow()),
               );
             },
           ),
@@ -203,7 +203,7 @@ class _FindTheNoState extends State<FindTheNo> {
 
   Widget getCurrentGrid() {
     GridNum gridNum = gridList[curGrid];
-    return getGrid(gridNum.color!, gridNum.getNumberToShow()!);
+    return getGrid(gridNum.color!, gridNum.getNumberToShow());
   }
 
   Widget getGrid(Color color, String numberToShow) {

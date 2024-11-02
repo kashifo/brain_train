@@ -1,16 +1,18 @@
+import 'package:brain_train/components/home_grid_item.dart';
 import 'package:brain_train/screens/empty_screen.dart';
 import 'package:brain_train/jigsaw/jigsaw_demo.dart';
 import 'package:brain_train/screens/find_the_no.dart';
 import 'package:brain_train/screens/find_the_pair.dart';
 import 'package:brain_train/screens/math_basic.dart';
 import 'package:brain_train/screens/repeat_the_no.dart';
+import 'package:brain_train/screens/sliding_puzzle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'components/get_icons.dart';
 
 class SubHomeScreen extends StatefulWidget {
-  const SubHomeScreen({super.key, required this.appBarTitle, required this.iconData, required this.iconColor});
+  const SubHomeScreen({super.key, required this.appBarTitle, required this.iconColor});
   final String appBarTitle;
-  final IconData iconData;
   final Color iconColor;
 
   @override
@@ -45,16 +47,14 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
                             color: Colors.black.withOpacity(0.2))
                       ],
                     ),
-                    child: Icon(
-                      widget.iconData,
-                      color: Colors.white,
-                    )),
+                    child: getIcon(widget.appBarTitle),
+                ),
                 title: Text(
                   'Brain Train',
                   style: TextStyle(fontSize: 14, color: Colors.white),
                 ),
                 subtitle: Text(
-                  widget.appBarTitle,
+                  '${widget.appBarTitle} Games',
                   style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -109,22 +109,23 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
 List<Widget> getGridItems(String appBarTitle, Color color, BuildContext context){
   List<Widget> gridItemList = [];
 
-  if(appBarTitle.compareTo('Memory Games')==0){
+  if(appBarTitle.compareTo('Memory')==0){
 
-    gridItemList.add( gridItem(context, 'Repeat the Numbers', Icons.repeat_one, color),);
-    gridItemList.add(gridItem(context, 'Find the Pair', Icons.search, color));
+    gridItemList.add( gridItem(context, 'Repeat the Numbers', color),);
+    gridItemList.add(gridItem(context, 'Find the Pair', color));
 
-  }else if(appBarTitle.compareTo('Imagination Games')==0){
+  }else if(appBarTitle.compareTo('Imagination')==0){
 
-    gridItemList.add(gridItem(context, 'Classic Puzzle', Icons.join_left_rounded, color));
+    gridItemList.add(gridItem(context, 'Classic Puzzle', color));
+    gridItemList.add(gridItem(context, 'Sliding Puzzle', color));
 
-  }else if(appBarTitle.compareTo('Attention Games')==0){
+  }else if(appBarTitle.compareTo('Attention')==0){
 
-    gridItemList.add(gridItem(context, 'Find the Number', Icons.remove_red_eye, color));
+    gridItemList.add(gridItem(context, 'Find the Number', color));
 
-  }else if(appBarTitle.compareTo('Arithmetic Games')==0){
+  }else if(appBarTitle.compareTo('Math')==0){
 
-    gridItemList.add(gridItem(context, 'Human Calculator', Icons.add, color));
+    gridItemList.add(gridItem(context, 'Human Calculator', color));
     // gridItemList.add();
 
   }
@@ -132,8 +133,7 @@ List<Widget> getGridItems(String appBarTitle, Color color, BuildContext context)
   return gridItemList;
 }
 
-
-InkWell gridItem(BuildContext context, String title, IconData iconData, Color iconColor) {
+InkWell gridItem(BuildContext context, String title, Color iconColor) {
   return InkWell(
     onTap: (){
       Navigator.push(
@@ -146,6 +146,8 @@ InkWell gridItem(BuildContext context, String title, IconData iconData, Color ic
                     return MathBasic(appBarTitle: title);
                   case 'Classic Puzzle':
                     return JigsawDemo(appBarTitle: title);
+                  case 'Sliding Puzzle':
+                    return SlidingPuzzle(appBarTitle: title);
                   case 'Repeat the Numbers':
                     return RepeatNo(appBarTitle: title);
                   case 'Find the Number':
@@ -159,51 +161,7 @@ InkWell gridItem(BuildContext context, String title, IconData iconData, Color ic
               }
           ));
     },
-    child: Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        shape: BoxShape.rectangle,
-        boxShadow: [
-          BoxShadow(
-              offset: const Offset(0, 0),
-              blurRadius: 5,
-              spreadRadius: 0,
-              color: Colors.black.withOpacity(0.2))
-        ],
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle, color: iconColor,
-                boxShadow: [
-                  BoxShadow(
-                      offset: const Offset(0, 1),
-                      blurRadius: 5,
-                      spreadRadius: 1,
-                      color: Colors.black.withOpacity(0.2))
-                ],
-              ),
-              child: Icon(
-                iconData,
-                color: Colors.white,
-                size: 25,
-              )),
-          const SizedBox(
-            height: 16,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(2),
-            child: Text(
-              title, textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w500),
-            ),
-          )
-        ],
-      ),
-    ),
+    child: getHomeGrid(title, iconColor),
   );
 }//gridItem
 

@@ -1,3 +1,4 @@
+import 'package:brain_train/components/home_grid_item.dart';
 import 'package:brain_train/screens/about_screen.dart';
 import 'package:brain_train/screens/empty_screen.dart';
 import 'package:brain_train/sub_home.dart';
@@ -37,13 +38,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-        body: AnnotatedRegion(
-      value: SystemUiOverlayStyle(statusBarColor: Colors.green),
-      child: Column(
-        children: [
-          Container(
+      body: AnnotatedRegion(
+        value: SystemUiOverlayStyle(statusBarColor: Colors.green),
+        child: Column(
+          children: [
+            Container(
             padding: const EdgeInsets.only(top: 40, bottom: 20),
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -110,14 +110,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       scrollDirection: Axis.vertical,
                       maxCrossAxisExtent: 200,
                       children: [
-                        gridItem(context, 'Memory', Icons.memory, Colors.green),
-                        gridItem(context, 'Imagination', Icons.remove_red_eye, Colors.blue),
-                        gridItem(context, 'Attention', Icons.repeat_one, Colors.orange),
-                        gridItem(context, 'Arithmetic', Icons.add, Colors.red),
-                        gridItem(context, 'Scores', Icons.score, Colors.green),
-                        gridItem(context, 'About', Icons.info_outline, Colors.cyan),
-                        gridItem(context, 'History', Icons.history,Colors.indigoAccent),
-                        gridItem(context, 'Feedback', Icons.feedback_outlined, Colors.red),
+                        gridItem(context, 'Memory', Colors.green),
+                        gridItem(context, 'Imagination', Colors.blue),
+                        gridItem(context, 'Attention', Colors.orange),
+                        gridItem(context, 'Math', Colors.red),
+                        gridItem(context, 'Scores', Colors.green),
+                        gridItem(context, 'About', Colors.cyan),
+                        gridItem(context, 'History', Colors.indigoAccent),
+                        gridItem(context, 'Feedback', Colors.red),
                       ],
                     ),
                   )),
@@ -189,15 +189,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-InkWell gridItem(BuildContext context, String title, IconData iconData, Color iconColor) {
+InkWell gridItem(BuildContext context, String title, Color iconColor) {
   return InkWell(
     onTap: () {
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         switch (title) {
-          case 'Memory' || 'Imagination' || 'Attention' || 'Arithmetic':
+          case 'Memory' || 'Imagination' || 'Attention' || 'Math':
             return SubHomeScreen(
-                appBarTitle: '$title Games',
-                iconData: iconData,
+                appBarTitle: title,
                 iconColor: iconColor);
           case 'About':
             return AboutScreen(appBarTitle: title);
@@ -206,53 +205,6 @@ InkWell gridItem(BuildContext context, String title, IconData iconData, Color ic
         }
       }));
     },
-    child: Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        shape: BoxShape.rectangle,
-        boxShadow: [
-          BoxShadow(
-              offset: const Offset(0, 0),
-              blurRadius: 5,
-              spreadRadius: 0,
-              color: Colors.black.withOpacity(0.2))
-        ],
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: iconColor,
-                boxShadow: [
-                  BoxShadow(
-                      offset: const Offset(0, 1),
-                      blurRadius: 5,
-                      spreadRadius: 1,
-                      color: Colors.black.withOpacity(0.2))
-                ],
-              ),
-              child: Icon(
-                iconData,
-                color: Colors.white,
-                size: 25,
-              )),
-          const SizedBox(
-            height: 16,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(2),
-            child: Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.w500),
-            ),
-          )
-        ],
-      ),
-    ),
+    child: getHomeGrid(title, iconColor),
   );
 } //gridItem

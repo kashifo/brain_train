@@ -111,8 +111,10 @@ List<Widget> getGridItems(String appBarTitle, Color color, BuildContext context)
 
   if(appBarTitle.compareTo('Memory')==0){
 
-    gridItemList.add( gridItem(context, 'Repeat the Numbers', color),);
+    gridItemList.add(gridItem(context, 'Repeat the Numbers', color));
     gridItemList.add(gridItem(context, 'Find the Pair', color));
+    gridItemList.add(gridItem(context, 'Compare', color));
+    gridItemList.add(gridItem(context, 'Matrix', color));
 
   }else if(appBarTitle.compareTo('Imagination')==0){
 

@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import '../models/ImgGrid.dart';
 
 class FindThePair extends StatefulWidget {
   const FindThePair({super.key, required this.appBarTitle});
@@ -7,14 +8,6 @@ class FindThePair extends StatefulWidget {
 
   @override
   State<FindThePair> createState() => _FindThePairState();
-}
-
-class ImgGrid{
-  String imgPath;
-  int posInGrid;
-  bool show;
-
-  ImgGrid(String this.imgPath, int this.posInGrid, bool this.show);
 }
 
 class _FindThePairState extends State<FindThePair> {

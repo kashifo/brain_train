@@ -28,4 +28,5 @@ flutter:
   assets:
     - assets/images/
     - assets/images/classic_puzzle/
+    - assets/images/numbers/
     - assets/icons/

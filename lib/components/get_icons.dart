@@ -12,11 +12,20 @@ Widget getIcon(String title){
     case 'History': return getNormalIcon(Icons.history);
     case 'Feedback': return getNormalIcon(Icons.feedback_outlined);
 
+    //Memory
     case 'Repeat the Numbers': return getNormalIcon(Icons.repeat_one);
     case 'Find the Pair': return getSvgIcon('flip_flops.svg');
+    case 'Compare': return getSvgIcon('compare.svg');
+    case 'Matrix': return getSvgIcon('matrix.svg');
+
+    //Imagination
     case 'Classic Puzzle': return getSvgIcon('puzzles.svg');
     case 'Sliding Puzzle': return getSvgIcon('slide_button.svg');
+
+    //Attention
     case 'Find the Number': return getSvgIcon('folder_search.svg');
+
+    //Math
     case 'Human Calculator': return getSvgIcon('calc.svg');
   }
 

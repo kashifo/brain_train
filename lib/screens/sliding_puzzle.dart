@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import '../components/game_commons.dart';
 import '../models/ImgGrid.dart';
 import '../utils/common_views.dart';
 
@@ -13,6 +14,7 @@ class SlidingPuzzle extends StatefulWidget {
 
 class _SlidingPuzzleState extends State<SlidingPuzzle> {
   List<String> rawImgList = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  int crossAxisCount = 3;
   int gridSize = 9;
   List<ImgGrid> imgGridList = [];
   int emptyPosition = 0;
@@ -47,7 +49,7 @@ class _SlidingPuzzleState extends State<SlidingPuzzle> {
 
   Widget getGameScreen(BuildContext context){
     if(isGameCompleted()){
-      return gameCompleted();
+      return gameCompleted( widget.appBarTitle );
     } else {
       return runningGame(context);
     }
@@ -68,7 +70,6 @@ class _SlidingPuzzleState extends State<SlidingPuzzle> {
   Widget runningGame(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    int crossAxisCount = 3;
 
     double gridPadding = 10; // total padding (left + right + top + bottom)
     double totalSpacing = (crossAxisCount - 1) * 10; // total spacing between items
@@ -100,8 +101,6 @@ class _SlidingPuzzleState extends State<SlidingPuzzle> {
                 bool isNear = isSpecificNeighbor(index, emptyPosition);
                 if(isNear) {
                   setState(() {
-                    int prevEmptyPos = emptyPosition;
-
                     var swap = imgGridList[emptyPosition];
                     imgGridList[emptyPosition] = imgGridList[index];
                     imgGridList[index] = swap;
@@ -123,17 +122,6 @@ class _SlidingPuzzleState extends State<SlidingPuzzle> {
 
   }//runningGame
 
-  /*bool isNeighbor(int pos1, int pos2) {
-    // Convert the 1D position to 2D (row, col)
-    int row1 = pos1 ~/ 3;
-    int col1 = pos1 % 3;
-    int row2 = pos2 ~/ 3;
-    int col2 = pos2 % 3;
-
-    // Check if they are neighbors
-    return (row1 - row2).abs() <= 1 && (col1 - col2).abs() <= 1;
-  }*/
-
   Map<int, List<int>> neighborMap = {
     0: [1, 3],       // Neighbors of position 0
     1: [0, 2, 4],    // Neighbors of position 1
@@ -148,23 +136,6 @@ class _SlidingPuzzleState extends State<SlidingPuzzle> {
 
   bool isSpecificNeighbor(int pos1, int pos2) {
     return neighborMap[pos1]?.contains(pos2) ?? false;
-  }
-
-  Widget gameCompleted(){
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset('assets/icons/brain_train_logo_wbg_512px.jpg', width: 100, height: 100,),
-          Text('Brain Train', style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),),
-          Text('Compare', style: TextStyle(fontSize: 16),),
-          SizedBox(height: 8),
-          Text('Congratulations', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
-          Text('You\'ve completed the game', style: TextStyle(fontSize: 18),),
-        ],
-      ),
-    );
   }
 
   Widget getGrid(ImgGrid imgGrid) {

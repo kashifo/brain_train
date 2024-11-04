@@ -18,6 +18,7 @@ class _RepeatNoState extends State<RepeatNo> {
   late String randNum;
   int right = 0, wrong = 0, randMax = 9999;
   var currColor = Colors.black;
+  String wrongQuestion='', wrongAnswer='';
 
   @override
   void initState() {
@@ -30,18 +31,48 @@ class _RepeatNoState extends State<RepeatNo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade100,
         appBar: simpleAppBar(widget.appBarTitle, context),
         body: SafeArea(
             child: Column(
           children: [
             Align(
-              child: Text('Right: $right, Wrong: $wrong \nLevel: ${randMax.toString().length}', style: TextStyle(fontSize: 22),),
-              alignment: Alignment.topRight,
+              child: Text('LEVEL: ${randMax.toString().length}', style: TextStyle(fontSize: 18), textAlign: TextAlign.center,),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.check, color: Colors.green,),
+                Text(right.toString()),
+                SizedBox(width: 8),
+                Icon(Icons.close, color: Colors.red,),
+                Text(wrong.toString()),
+              ],
+            ),
+            SizedBox(width: 8),
+            RichText(text: TextSpan(
+              children: [
+                TextSpan(
+                  text: '$wrongQuestion  ',
+                  style: TextStyle(color: Colors.green, fontSize: 18)
+                ),
+                TextSpan(
+                    text: wrongAnswer,
+                    style: TextStyle(color: Colors.red, fontSize: 18)
+                )
+              ]
+            )),
+
             Expanded(
               child: Center(
                 child: Container(
                   padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(boxShadow: [
+                    BoxShadow(
+                        color: const Color(0xff1D1617).withOpacity(0.11),
+                        blurRadius: 40,
+                        spreadRadius: 0.0)
+                  ]),
                   child: TextField(
                     autofocus: true,
                     controller: myController,
@@ -58,7 +89,7 @@ class _RepeatNoState extends State<RepeatNo> {
                         contentPadding: const EdgeInsets.all(16),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
-                            )),
+                            borderSide: BorderSide.none)),
                   ),
                 ),
               ),
@@ -72,11 +103,19 @@ class _RepeatNoState extends State<RepeatNo> {
     if (input == randNum) {
       setState(() {
         right += 1;
+
+        wrongQuestion='';
+        wrongAnswer='';
+
         setLevel(true);
       });
     } else {
       setState(() {
         wrong += 1;
+
+        wrongQuestion=randNum;
+        wrongAnswer=input;
+
         setLevel(false);
       });
     }

@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import '../components/game_commons.dart';
 import '../models/ImgGrid.dart';
 
 class FindThePair extends StatefulWidget {
@@ -75,7 +76,7 @@ class _FindThePairState extends State<FindThePair> {
 
   Widget getGameScreen(BuildContext context){
     if(correctClicks==(gridSize/2)){
-      return gameCompleted();
+      return gameCompleted(widget.appBarTitle);
     } else {
       return runningGame(context);
     }
@@ -180,23 +181,6 @@ class _FindThePairState extends State<FindThePair> {
       imgGridList[clickList[0].posInGrid].show = false;
       clickList.clear();
     });
-  }
-
-  Widget gameCompleted(){
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset('assets/icons/brain_train_logo_wbg_512px.jpg', width: 100, height: 100,),
-          Text('Brain Train', style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),),
-          Text('Find the Pair', style: TextStyle(fontSize: 16),),
-          SizedBox(height: 8),
-          Text('Congratulations', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
-          Text('You\'ve completed the game', style: TextStyle(fontSize: 18),),
-        ],
-      ),
-    );
   }
 
   Widget getGrid(ImgGrid imgGrid) {

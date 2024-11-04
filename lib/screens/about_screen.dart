@@ -23,7 +23,7 @@ class _AboutScreenState extends State<AboutScreen> {
             Image.asset('assets/icons/brain_train_logo_wbg_512px.jpg', width: 100, height: 100,),
             Text('Brain Train', style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),),
             Text('Version 1.2', style: TextStyle(fontSize: 14),),
-            SizedBox(height: 8),
+            SizedBox(height: 16),
             Text('Developed By:', style: TextStyle(fontSize: 14),),
             Text('Kashif Anwaar', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
           ],

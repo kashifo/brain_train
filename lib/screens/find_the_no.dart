@@ -17,7 +17,7 @@ class GridNum {
   int? number;
   bool hide;
 
-  GridNum(Color this.color, int this.number, bool this.hide);
+  GridNum(Color this.color, int this.number, this.hide);
 
   String getNumberToShow(){
     if(hide || number==null){

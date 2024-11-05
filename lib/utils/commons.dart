@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 String handleNull(String? str){
-  if(str==null)
+  if(str==null) {
     return '';
-  else
+  } else {
     return str;
+  }
 }
 
 bool isNullOrEmpty(String? str){
@@ -23,7 +24,7 @@ Future<void> savePrefString(String key, String value) async {
 
 getIntColor(String hex) {
   hex = hex.replaceFirst('#', '');
-  hex = hex.length == 6 ? 'ff' + hex : hex;
+  hex = hex.length == 6 ? 'ff$hex' : hex;
   int val = int.parse(hex, radix: 16);
   return Color(val);
 }

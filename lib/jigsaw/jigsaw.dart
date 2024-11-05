@@ -11,7 +11,7 @@ import 'package:brain_train/jigsaw/error.dart';
 
 class JigsawPuzzle extends StatefulWidget {
   const JigsawPuzzle({
-    Key? key,
+    super.key,
     required this.gridSize,
     required this.image,
     required this.puzzleKey,
@@ -20,7 +20,7 @@ class JigsawPuzzle extends StatefulWidget {
     this.outlineCanvas = true,
     this.autoStart = false,
     this.snapSensitivity = .5,
-  }) : super(key: key);
+  });
 
   final int gridSize;
   final Function()? onFinished;
@@ -69,14 +69,14 @@ class _JigsawPuzzleState extends State<JigsawPuzzle> {
 
 class JigsawWidget extends StatefulWidget {
   const JigsawWidget({
-    Key? key,
+    super.key,
     required this.gridSize,
     required this.snapSensitivity,
     required this.child,
     this.callbackFinish,
     this.callbackSuccess,
     this.outlineCanvas = true,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final Function()? callbackSuccess;
@@ -427,7 +427,7 @@ class JigsawPainterBackground extends CustomPainter {
       ..strokeCap = StrokeCap.round;
     final Path path = Path();
 
-    blocks.forEach((element) {
+    for (var element in blocks) {
       final Path pathTemp = getPiecePath(
         element.jigsawBlockWidget.imageBox.size,
         element.jigsawBlockWidget.imageBox.radiusPoint,
@@ -436,7 +436,7 @@ class JigsawPainterBackground extends CustomPainter {
       );
 
       path.addPath(pathTemp, element.offsetDefault);
-    });
+    }
 
     canvas.drawPath(path, paint);
   }
@@ -487,7 +487,7 @@ class ClassJigsawPos {
 }
 
 class JigsawBlockWidget extends StatefulWidget {
-  const JigsawBlockWidget({Key? key, required this.imageBox}) : super(key: key);
+  const JigsawBlockWidget({super.key, required this.imageBox});
 
   final ImageBox imageBox;
 

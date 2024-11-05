@@ -4,5 +4,5 @@ class ImgGrid{
   int posInGrid;
   bool show;
 
-  ImgGrid(String this.imgPath, int this.posInGrid, bool this.show);
+  ImgGrid(this.imgPath, this.posInGrid, this.show);
 }

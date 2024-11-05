@@ -67,7 +67,7 @@ class _MathBasicState extends State<MathBasic> {
                     '$num1 + $num2',
                     style: TextStyle(fontSize: 72),
                   ),
-                  Container(
+                  SizedBox(
                     width: 300,
                     child: TextField(
                       autofocus: true,

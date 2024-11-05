@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import '../components/game_commons.dart';
 import '../models/ImgGrid.dart';
-import '../utils/common_views.dart';
+import '../components/simple_app_bar.dart';
 
 class SlidingPuzzle extends StatefulWidget {
   const SlidingPuzzle({super.key, required this.appBarTitle});

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:brain_train/utils/common_views.dart';
+import 'package:brain_train/components/simple_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class RepeatNo extends StatefulWidget {

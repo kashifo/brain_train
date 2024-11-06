@@ -39,7 +39,7 @@ class _MathBasicState extends State<MathBasic> {
 
   void _handleSwitchChange(bool value) {
     setState(() {
-      showError = value;  // Update the local state when the switch changes
+      showError = value;
     });
   }
 
@@ -72,9 +72,9 @@ class _MathBasicState extends State<MathBasic> {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: SimpleAppBarWithSwitch(
-        appBarTitle: widget.appBarTitle,  // Pass the app bar title
-        isTrue: showError,  // Pass the current state of the switch
-        onChanged: _handleSwitchChange,  // Callback to update the state
+        appBarTitle: widget.appBarTitle,
+        isTrue: showError,
+        onChanged: _handleSwitchChange,
       ),
       body: Stack(
         alignment: Alignment.topRight,

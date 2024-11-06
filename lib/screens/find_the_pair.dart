@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import '../components/game_commons.dart';
+import '../components/simple_app_bar_with_switch.dart';
 import '../models/ImgGrid.dart';
 
 class FindThePair extends StatefulWidget {
@@ -39,36 +40,19 @@ class _FindThePairState extends State<FindThePair> {
     }
   }
 
+  void _handleSwitchChange(bool value) {
+    setState(() {
+      showAnim = value;  // Update the local state when the switch changes
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.appBarTitle),
-        automaticallyImplyLeading: false,
-        elevation: 2.0,
-        actions: [
-          Switch(
-            value: showAnim,
-            onChanged: (value) {
-              setState(() {
-                showAnim = value;
-              });
-            },
-          ),
-          SizedBox(width: 16),
-          InkWell(
-            onTap: (){
-              Navigator.pop(context);
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: Icon(
-                  Icons.close
-              ),
-            ),
-          ),
-          SizedBox(width: 8),
-        ],
+      appBar: SimpleAppBarWithSwitch(
+        appBarTitle: widget.appBarTitle,
+        isTrue: showAnim,
+        onChanged: _handleSwitchChange,
       ),
       body: getGameScreen(context),
     );

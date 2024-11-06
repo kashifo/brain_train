@@ -4,7 +4,6 @@ AppBar simpleAppBar(String title, BuildContext context) {
   return AppBar(
     title: Text(title),
     automaticallyImplyLeading: false,
-    centerTitle: true,
     elevation: 2.0,
     actions: [
       InkWell(

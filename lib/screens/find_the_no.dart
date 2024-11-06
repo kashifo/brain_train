@@ -63,36 +63,34 @@ class _FindTheNoState extends State<FindTheNo> {
   }
 
   Widget runningGame(BuildContext context) {
+    double itemSpacing = 8;
+
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     int crossAxisCount = screenWidth >= 1036 ? 6 : 4;
+    var gridWidth = (screenWidth / crossAxisCount) - itemSpacing;
 
-    double gridPadding = 20; // 10 padding on each side
-    double totalMainAxisSpacing = (crossAxisCount - 1) * 10; // Spacing between rows
-    double availableHeight = screenHeight - gridPadding - totalMainAxisSpacing - 180;
-    double mainAxisExtent = availableHeight / (gridSize / crossAxisCount);
+    double fixedHeight = AppBar().preferredSize.height + (itemSpacing*2);
+    double availableHeight = screenHeight - fixedHeight - 24;
+    double mainAxisExtent = (availableHeight - itemSpacing * (gridSize / crossAxisCount+1).floor()) / (gridSize / crossAxisCount+1).ceil();
 
-    var gridWidth = (screenWidth / crossAxisCount) - 10;
     print('mainAxisExtent=$mainAxisExtent, gridWidth=$gridWidth');
     print('screenWidth=$screenWidth, screenHeight=$screenHeight');
 
     return Column(
       children: [
         SizedBox(
-          height: 16,
+          height: itemSpacing,
         ),
         SizedBox(width: gridWidth, height: mainAxisExtent, child: getCurrentGrid()),
-        SizedBox(
-          height: 8,
-        ),
         Expanded(
           child: GridView.builder(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.all(itemSpacing),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: crossAxisCount,
               childAspectRatio: (1 / .4),
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
+              crossAxisSpacing: itemSpacing,
+              mainAxisSpacing: itemSpacing,
               mainAxisExtent: mainAxisExtent, // Use the calculated height
             ),
             itemCount: gridSize,
@@ -107,7 +105,7 @@ class _FindTheNoState extends State<FindTheNo> {
                     }
                   });
                 },
-                  child: getGrid(gridList[index].color!, gridList[index].getNumberToShow()),
+                child: getGrid(gridList[index].color!, gridList[index].getNumberToShow()),
               );
             },
           ),
@@ -150,7 +148,7 @@ class _FindTheNoState extends State<FindTheNo> {
     }
 
   }
-  
+
   GridNum generateRandomGrid(){
     List<Color> colorList = [
       Colors.red,

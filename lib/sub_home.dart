@@ -1,9 +1,10 @@
 import 'package:brain_train/components/home_grid_item.dart';
 import 'package:brain_train/screens/empty_screen.dart';
-import 'package:brain_train/jigsaw/jigsaw_demo.dart';
+import 'package:brain_train/screens/jigsaw/jigsaw_demo.dart';
 import 'package:brain_train/screens/find_the_no.dart';
 import 'package:brain_train/screens/find_the_pair.dart';
 import 'package:brain_train/screens/math_basic.dart';
+import 'package:brain_train/screens/memory_matrix.dart';
 import 'package:brain_train/screens/repeat_the_no.dart';
 import 'package:brain_train/screens/sliding_puzzle.dart';
 import 'package:flutter/material.dart';
@@ -156,6 +157,8 @@ InkWell gridItem(BuildContext context, String title, Color iconColor) {
                     return FindTheNo(appBarTitle: title);
                   case 'Find the Pair':
                     return FindThePair(appBarTitle: title);
+                  case 'Matrix':
+                    return MemoryMatrix(appBarTitle: title);
                   default:
                     return EmptyScreen(appBarTitle: title);
                 }

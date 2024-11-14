@@ -1,4 +1,4 @@
-import 'package:brain_train/jigsaw/jigsaw.dart';
+import 'package:brain_train/screens/jigsaw/jigsaw.dart';
 import 'package:flutter/material.dart';
 
 class JigsawScreen extends StatefulWidget {

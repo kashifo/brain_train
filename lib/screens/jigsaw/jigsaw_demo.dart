@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:brain_train/components/simple_app_bar.dart';
+import 'package:brain_train/screens/jigsaw/jigsaw.dart';
 import 'package:flutter/material.dart';
-import 'package:brain_train/jigsaw/jigsaw.dart';
 
 class JigsawDemo extends StatefulWidget {
   const JigsawDemo({super.key, required this.appBarTitle});

@@ -1,13 +1,11 @@
-
 import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:brain_train/screens/jigsaw/error.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:image/image.dart' as ui;
-
-import 'package:brain_train/jigsaw/error.dart';
 
 class JigsawPuzzle extends StatefulWidget {
   const JigsawPuzzle({

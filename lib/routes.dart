@@ -5,8 +5,7 @@ class Routes {
   static final routes = [
     GetPage(
         name: '/',
-        page: () => HomeScreen(),
-        binding: HomeBinding(),
+        page: () => HomeScreen()
     ),
     GetPage(
         name: '/',

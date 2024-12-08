@@ -21,12 +21,19 @@ jobs:
           channel: 'stable'
           cache: flutter
 
+      # Install Windows Build Tools (Flutter prerequisites)
+      - name: Install Windows Build Tools
+        run: |
+          choco install visualstudio2022buildtools --version=17.6.5.0 -y
+          choco install visualstudio2022-workload-vctools -y
+          choco install windows-sdk-10.0 -y
+
       - name: Install Dependencies
         run: flutter pub get
 
       # Build Windows Binary
       - name: Build Windows Binary
-        run: flutter build windows --release
+        run: flutter build windows
 
       - name: Archive Windows Binary
         uses: thedoctor0/zip-release@0.7.5

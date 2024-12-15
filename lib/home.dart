@@ -1,40 +1,13 @@
 import 'package:brain_train/components/home_grid_item.dart';
-import 'package:brain_train/screens/about_screen.dart';
-import 'package:brain_train/screens/empty_screen.dart';
-import 'package:brain_train/sub_home.dart';
+import 'package:brain_train/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
+import 'controllers/home_controller.dart';
 import 'utils/commons.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  String? userName;
-
-  @override
-  void initState() {
-    super.initState();
-    getPrefs();
-  }
-
-  Future<void> getPrefs() async {
-    final prefs = await SharedPreferences.getInstance();
-    userName = prefs.getString('username');
-
-    if (userName != null && userName!.isNotEmpty) {
-      setState(() {
-        userName;
-      });
-    } else {
-      showUserNameDialog(context);
-    }
-  }
+class HomeScreen extends StatelessWidget {
+  final HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -81,13 +54,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () {
                   showUserNameDialog(context);
                 },
-                child: Text(
-                  userName ?? 'Click to set your name',
+                child: Obx(() => Text(
+                  homeController.username.value,
                   style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
-                ),
+                )),
               ),
             ),
           ),
@@ -130,17 +103,13 @@ class _HomeScreenState extends State<HomeScreen> {
   } //build
 
   Future<void> showUserNameDialog(BuildContext context) async {
-    String? valueText;
+    var valueText = ''.obs;
 
     saveInput() {
-      if (!isNullOrEmpty(valueText)) {
-        valueText = valueText!.trim();
-        savePrefString('username', valueText!);
-
-        setState(() {
-          userName = valueText!;
-        });
-
+      if (!isNullOrEmpty(valueText.value)) {
+        valueText.value = valueText.value.trim();
+        savePrefString('username', valueText.value);
+        homeController.username.value = valueText.value!;
         Navigator.pop(context);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -162,12 +131,10 @@ class _HomeScreenState extends State<HomeScreen> {
               autofocus: true,
               textInputAction: TextInputAction.done,
               onChanged: (value) {
-                setState(() {
-                  valueText = value.toString();
-                });
+                valueText.value = value.toString();
               },
               onSubmitted: (value) {
-                valueText = value;
+                valueText.value = value;
                 saveInput();
               },
               decoration: const InputDecoration(
@@ -192,18 +159,14 @@ class _HomeScreenState extends State<HomeScreen> {
 InkWell gridItem(BuildContext context, String title, Color iconColor) {
   return InkWell(
     onTap: () {
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
         switch (title) {
           case 'Memory' || 'Imagination' || 'Attention' || 'Math':
-            return SubHomeScreen(
-                appBarTitle: title,
-                iconColor: iconColor);
+            Get.toNamed(RouteNames.SUB_HOME_SREEN, arguments: {'appBarTitle': title, 'iconColor': iconColor});
           case 'About':
-            return AboutScreen(appBarTitle: title);
+            Get.toNamed(RouteNames.ABOUT_SCREEN, arguments: {'appBarTitle': title});
           default:
-            return EmptyScreen(appBarTitle: title);
+            Get.toNamed(RouteNames.EMPTY_SCREEN, arguments: {'appBarTitle': title});
         }
-      }));
     },
     child: getHomeGrid(title, iconColor),
   );

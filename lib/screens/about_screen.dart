@@ -1,20 +1,18 @@
 import 'package:brain_train/components/simple_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class AboutScreen extends StatefulWidget {
-  const AboutScreen({super.key, required this.appBarTitle});
-  final String appBarTitle;
+class AboutScreen extends StatelessWidget {
+  const AboutScreen({super.key});
 
-  @override
-  State<AboutScreen> createState() => _AboutScreenState();
-}
-
-class _AboutScreenState extends State<AboutScreen> {
   @override
   Widget build(BuildContext context) {
+    final args = Get.arguments as Map<String, dynamic>;
+    final appBarTitle = args['appBarTitle'];
+
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: simpleAppBar(widget.appBarTitle, context),
+      appBar: simpleAppBar(appBarTitle, context),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.max,

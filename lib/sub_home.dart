@@ -9,37 +9,33 @@ import 'package:brain_train/screens/repeat_the_no.dart';
 import 'package:brain_train/screens/sliding_puzzle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'components/get_icons.dart';
+import 'route_names.dart';
 
-class SubHomeScreen extends StatefulWidget {
-  const SubHomeScreen({super.key, required this.appBarTitle, required this.iconColor});
-  final String appBarTitle;
-  final Color iconColor;
-
-  @override
-  State<SubHomeScreen> createState() => _SubHomeScreenState();
-}
-
-class _SubHomeScreenState extends State<SubHomeScreen> {
+class SubHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: widget.iconColor));
+    final args = Get.arguments as Map<String, dynamic>;
+    final appBarTitle = args['appBarTitle'];
+    final iconColor = args['iconColor'];
 
     return Scaffold(
       body: AnnotatedRegion(
-        value: SystemUiOverlayStyle(statusBarColor: widget.iconColor),
+        value: SystemUiOverlayStyle(statusBarColor: iconColor),
         child: Column(
           children: [
             Container(
               padding: const EdgeInsets.only(top: 40, bottom: 20),
-              decoration: BoxDecoration(color: widget.iconColor),
+              decoration: BoxDecoration(color: iconColor),
               child: ListTile(
                 contentPadding: EdgeInsets.only(left: 30, right: 30),
                 leading: Container(
                     padding: const EdgeInsets.all(13),
                     decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: widget.iconColor,
+                      shape: BoxShape.circle, color: iconColor,
                       boxShadow: [
                         BoxShadow(
                             offset: const Offset(0, 1),
@@ -48,14 +44,14 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
                             color: Colors.black.withOpacity(0.2))
                       ],
                     ),
-                    child: getIcon(widget.appBarTitle),
+                    child: getIcon(appBarTitle),
                 ),
                 title: Text(
                   'Brain Train',
                   style: TextStyle(fontSize: 14, color: Colors.white),
                 ),
                 subtitle: Text(
-                  '${widget.appBarTitle} Games',
+                  '${appBarTitle} Games',
                   style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -78,7 +74,7 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
             ),
             Expanded(
               child: Container(
-                color: widget.iconColor,
+                color: iconColor,
                 child: Container(
                     decoration: const BoxDecoration(
                         color: Colors.white,
@@ -94,7 +90,7 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
                         physics: const ScrollPhysics(),
                         scrollDirection: Axis.vertical,
                         maxCrossAxisExtent: 200,
-                        children: getGridItems(widget.appBarTitle, widget.iconColor, context),
+                        children: getGridItems(appBarTitle, iconColor, context),
                       ),
                     )),
               ),
@@ -138,35 +134,27 @@ List<Widget> getGridItems(String appBarTitle, Color color, BuildContext context)
 
 InkWell gridItem(BuildContext context, String title, Color iconColor) {
   return InkWell(
-    onTap: (){
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) {
-
-                switch(title){
-                  case 'Human Calculator':
-                    return MathBasic(appBarTitle: title);
-                  case 'Classic Puzzle':
-                    return JigsawDemo(appBarTitle: title);
-                  case 'Sliding Puzzle':
-                    return SlidingPuzzle(appBarTitle: title);
-                  case 'Repeat the Numbers':
-                    return RepeatNo(appBarTitle: title);
-                  case 'Find the Number':
-                    return FindTheNo(appBarTitle: title);
-                  case 'Find the Pair':
-                    return FindThePair(appBarTitle: title);
-                  case 'Matrix':
-                    return MemoryMatrix(appBarTitle: title);
-                  default:
-                    return EmptyScreen(appBarTitle: title);
-                }
-
-              }
-          ));
+    onTap: () {
+      switch (title) {
+        case 'Human Calculator':
+          Get.to(MathBasic(appBarTitle: title));
+        case 'Classic Puzzle':
+          Get.to(JigsawDemo(appBarTitle: title));
+        case 'Sliding Puzzle':
+          Get.to(SlidingPuzzle(appBarTitle: title));
+        case 'Repeat the Numbers':
+          Get.to(RepeatNo(appBarTitle: title));
+        case 'Find the Number':
+          Get.to(FindTheNo(appBarTitle: title));
+        case 'Find the Pair':
+          Get.to(FindThePair(appBarTitle: title));
+        case 'Matrix':
+          Get.to(MemoryMatrix(appBarTitle: title));
+        default:
+          Get.toNamed(RouteNames.EMPTY_SCREEN,
+              arguments: {'appBarTitle': title});
+      }
     },
     child: getHomeGrid(title, iconColor),
   );
-}//gridItem
-
+} //gridItem

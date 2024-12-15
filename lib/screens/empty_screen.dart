@@ -1,19 +1,17 @@
 import 'package:brain_train/components/simple_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class EmptyScreen extends StatefulWidget {
-  const EmptyScreen({super.key, required this.appBarTitle});
-  final String appBarTitle;
+class EmptyScreen extends StatelessWidget {
+  const EmptyScreen({super.key});
 
-  @override
-  State<EmptyScreen> createState() => _EmptyScreenState();
-}
-
-class _EmptyScreenState extends State<EmptyScreen> {
   @override
   Widget build(BuildContext context) {
+    final args = Get.arguments as Map<String, dynamic>;
+    final appBarTitle = args['appBarTitle'];
+
     return Scaffold(
-      appBar: simpleAppBar(widget.appBarTitle, context),
+      appBar: simpleAppBar(appBarTitle, context),
       body: const Center(
         child: Text('This screen is not ready yet.'),
       ),

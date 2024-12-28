@@ -3,6 +3,7 @@ import 'package:brain_train/route_names.dart';
 import 'package:brain_train/screens/about_screen.dart';
 import 'package:brain_train/screens/empty_screen.dart';
 import 'package:get/get.dart';
+import 'controllers/math_basic_controller.dart';
 import 'home.dart';
 import 'sub_home.dart';
 

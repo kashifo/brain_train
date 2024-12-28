@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 AppBar simpleAppBar(String title, BuildContext context) {
   return AppBar(
@@ -8,7 +9,8 @@ AppBar simpleAppBar(String title, BuildContext context) {
     actions: [
       InkWell(
         onTap: (){
-          Navigator.pop(context);
+          // Navigator.pop(context);
+          Get.back();
         },
         child: Padding(
           padding: const EdgeInsets.only(right: 16),
